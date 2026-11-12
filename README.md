@@ -10,7 +10,7 @@ application source code.**
 ## Download
 
 Open the [latest release](https://github.com/Fahad-FullStackDeveloper/battery-monitor-download/releases/latest)
-and download `RealBatteryHealthMonitor-Setup-1.8.3.exe`.
+and download `RealBatteryHealthMonitor-Setup-1.8.4.exe`.
 
 - Single-file installer, no source folder required
 - Per-user install: `%LOCALAPPDATA%\Programs\BatteryMonitor`
@@ -21,7 +21,7 @@ and download `RealBatteryHealthMonitor-Setup-1.8.3.exe`.
 
 ## Install
 
-1. Download `RealBatteryHealthMonitor-Setup-1.8.3.exe`.
+1. Download `RealBatteryHealthMonitor-Setup-1.8.4.exe`.
 2. Double-click it.
 3. If Windows SmartScreen appears, choose **More info -> Run anyway**.
    The build is currently unsigned.
@@ -47,9 +47,11 @@ To uninstall, open the Start Menu folder **Real Battery Health Monitor** and run
   volumes, all GPUs with VRAM, motherboard, BIOS, OS install date, and uptime
 - The same data appears in the CLI monitor, the HTML dashboard, and
   `Battery_Full_Report.json`
-- **Storage health remaining:** each drive shows SMART status, endurance left
-  (`100 - Wear`), wear used, temperature, power-on hours, and read/write errors
-  when the hardware reports them (`N/A` otherwise)
+- **Honest storage endurance:** each drive shows SMART status and endurance
+  left (`100 - Wear`) only when it genuinely reports SMART/NVMe data. Plain USB
+  bridges and mechanical HDDs show `N/A` / "not reported by drive" instead of a
+  false 100%. Health source, temperature, max temperature, power-on hours, cycle
+  counts, and read/write errors are shown when the drive reports them
 - **SSD, HDD, and USB shown separately** so internal and removable drives are
   never mixed
 - **Numbered right-side spec panel:** the dashboard keeps live battery data on
@@ -71,31 +73,31 @@ personal data. Reports are generated locally.
 Use `SHA256SUMS.txt` from this repository:
 
 ```powershell
-Get-FileHash .\RealBatteryHealthMonitor-Setup-1.8.3.exe -Algorithm SHA256
+Get-FileHash .\RealBatteryHealthMonitor-Setup-1.8.4.exe -Algorithm SHA256
 ```
 
-Expected SHA-256 for v1.8.3:
+Expected SHA-256 for v1.8.4:
 
 ```text
-454BAA05221234F1E34BEFE7DB488F9347C84B5B1B9AA27FEA4F03266DD61E74
+162655E9AB7247BD33DF10BC6D8F20734D560B6845C2A7DC6F78794639A00813
 ```
 
-## What changed in v1.8.3
+## What changed in v1.8.4
 
-- **Storage endurance:** every drive now reports health remaining %
-  (`100 - Wear`) and wear used, plus disk temperature, power-on hours,
-  read/write error counts, firmware, serial, and per-volume free space when the
-  drive exposes them. Unreported counters show `N/A`, never a guessed value.
-- **Separate SSD / HDD / USB groups:** internal and removable storage are
-  grouped on their own in both the CLI and HTML.
-- **Right-side numbered spec panel:** Battery Hardware, System Specifications,
-  Memory Modules, Storage Devices, and Graphics Adapters now live in a sticky,
-  independently scrolling sidebar.
-- **Flicker-free refresh:** the dashboard swaps its content in place instead of
-  reloading, so it no longer blanks for a second and keeps your scroll position
-  and live chart.
-- **JSON export:** adds `System.StorageHealthSummary` plus per-device category,
-  wear, temperature, power-on hours, error counts, and volume percentages.
+- **Storage endurance corrected:** `Wear` is no longer shown as a real 100%
+  just because Windows returned a default value. Endurance is displayed only
+  when the drive also exposes live SMART/NVMe data (temperature or lifetime
+  counters); plain USB bridges report `N/A` and mechanical HDDs report
+  `Not applicable (HDD)`.
+- **Health source per drive:** each storage card names the source (for example
+  `Drive NVMe SMART health log` or `Not exposed by drive`), so a 0% wear value
+  can be checked against real drive telemetry.
+- **More drive details:** max temperature, start/stop cycles, load/unload
+  cycles, and manufacture date are shown and exported when reported.
+- **Clearer summary:** `StorageHealthSummary` is per group, e.g.
+  `SSD: 100% remaining | USB / External: endurance not reported`.
+- All v1.8.3 features remain: grouped SSD/HDD/USB devices, numbered spec
+  sidebar, flicker-free refresh, and full CLI/HTML/JSON reporting.
 
 ## Requirements
 
