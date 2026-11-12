@@ -10,7 +10,7 @@ application source code.**
 ## Download
 
 Open the [latest release](https://github.com/Fahad-FullStackDeveloper/battery-monitor-download/releases/latest)
-and download `RealBatteryHealthMonitor-Setup-1.8.2.exe`.
+and download `RealBatteryHealthMonitor-Setup-1.8.3.exe`.
 
 - Single-file installer, no source folder required
 - Per-user install: `%LOCALAPPDATA%\Programs\BatteryMonitor`
@@ -21,7 +21,7 @@ and download `RealBatteryHealthMonitor-Setup-1.8.2.exe`.
 
 ## Install
 
-1. Download `RealBatteryHealthMonitor-Setup-1.8.2.exe`.
+1. Download `RealBatteryHealthMonitor-Setup-1.8.3.exe`.
 2. Double-click it.
 3. If Windows SmartScreen appears, choose **More info -> Run anyway**.
    The build is currently unsigned.
@@ -47,6 +47,15 @@ To uninstall, open the Start Menu folder **Real Battery Health Monitor** and run
   volumes, all GPUs with VRAM, motherboard, BIOS, OS install date, and uptime
 - The same data appears in the CLI monitor, the HTML dashboard, and
   `Battery_Full_Report.json`
+- **Storage health remaining:** each drive shows SMART status, endurance left
+  (`100 - Wear`), wear used, temperature, power-on hours, and read/write errors
+  when the hardware reports them (`N/A` otherwise)
+- **SSD, HDD, and USB shown separately** so internal and removable drives are
+  never mixed
+- **Numbered right-side spec panel:** the dashboard keeps live battery data on
+  the left and a sticky, scrollable hardware panel on the right
+- **Flicker-free refresh:** values update in place every interval without a
+  blank screen or losing your scroll position
 - Works generically on any Windows laptop or desktop through WMI/CIM and
   Storage cmdlets; no fixed hardware template
 - Tray alerts for low and critical battery
@@ -62,27 +71,31 @@ personal data. Reports are generated locally.
 Use `SHA256SUMS.txt` from this repository:
 
 ```powershell
-Get-FileHash .\RealBatteryHealthMonitor-Setup-1.8.2.exe -Algorithm SHA256
+Get-FileHash .\RealBatteryHealthMonitor-Setup-1.8.3.exe -Algorithm SHA256
 ```
 
-Expected SHA-256 for v1.8.2:
+Expected SHA-256 for v1.8.3:
 
 ```text
-6B2ABA67747C15B62C151F5F40825DA1F073474741577A33F9E2CB32B27C4B1A
+454BAA05221234F1E34BEFE7DB488F9347C84B5B1B9AA27FEA4F03266DD61E74
 ```
 
-## What changed in v1.8.2
+## What changed in v1.8.3
 
-- Renamed the user-facing app to **Real Battery Health Monitor** (tray menu,
-  tooltip, shortcuts, installer, dashboard, and docs). Existing installs
-  upgrade in place and legacy shortcuts are migrated automatically.
-- Expanded hardware and system specifications with the full RAM layout,
-  every storage device, all GPUs, motherboard, BIOS, OS details, and battery
-  hardware details listed above.
-- JSON export now includes a `System` section with memory modules, storage
-  devices, and GPU arrays.
-- Cleaner upgrades: stale script copies from older versions are removed, and
-  uninstalling from the Start Menu removes the installed folder correctly.
+- **Storage endurance:** every drive now reports health remaining %
+  (`100 - Wear`) and wear used, plus disk temperature, power-on hours,
+  read/write error counts, firmware, serial, and per-volume free space when the
+  drive exposes them. Unreported counters show `N/A`, never a guessed value.
+- **Separate SSD / HDD / USB groups:** internal and removable storage are
+  grouped on their own in both the CLI and HTML.
+- **Right-side numbered spec panel:** Battery Hardware, System Specifications,
+  Memory Modules, Storage Devices, and Graphics Adapters now live in a sticky,
+  independently scrolling sidebar.
+- **Flicker-free refresh:** the dashboard swaps its content in place instead of
+  reloading, so it no longer blanks for a second and keeps your scroll position
+  and live chart.
+- **JSON export:** adds `System.StorageHealthSummary` plus per-device category,
+  wear, temperature, power-on hours, error counts, and volume percentages.
 
 ## Requirements
 
